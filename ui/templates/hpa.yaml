@@ -1,0 +1,15 @@
+{{- if .Values.hpa.enabled -}} # HPA won't created
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    {{- include "ui.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: react-ui
+  minReplicas: {{ .Values.hpa.maxReplicas }}
+  maxReplicas: {{ .Values.hpa.minReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.cpuuti }}
+{{- end -}}

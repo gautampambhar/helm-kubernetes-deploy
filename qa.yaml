@@ -1,0 +1,63 @@
+---
+# Source: ui/templates/config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: react-ui-config
+  labels:
+    app: react-ui
+    env: qa
+data:
+  config.yaml: |
+    database:
+      ip: 120.220.230.20
+      name: ui-qa
+    logfile: /app/var/log.txt
+    timeout: 5s
+---
+# Source: ui/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+  labels:
+    app: react-ui
+    env: qa
+spec:
+    type: ClusterIP
+    selector:
+        component: client
+    ports:
+     -   port: 3000
+         targetPort: 3000
+---
+# Source: ui/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-ui-dep
+  labels:
+    app: react-ui
+    env: qa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react-ui
+  template:
+    metadata:
+      labels:
+        app: react-ui
+        env: qa
+    spec:
+      containers:
+        - name: react-ui
+          image: 300974211/frontend
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 1
+              memory: 500Mi
+            requests:
+              cpu: 1
+              memory: 500Mi

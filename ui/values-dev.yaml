@@ -1,0 +1,27 @@
+app:
+  replicas: 1
+  env: dev
+  container:
+    image: 300974211/frontend
+  computerc:
+    limits:
+      memory: 500Mi
+      cpu: 0.2 
+    requests:
+      memory: 500Mi
+      cpu: 0.2
+
+hpa: # is not required for dev env
+  enabled: false
+
+config:
+  name: config.yaml
+  data: 
+    timeout: 10s
+    logfile: /app/var/log.txt
+    database:
+      ip: 10.20.30.20
+      name: ui-dev 
+
+configxml:
+  name: app.xml

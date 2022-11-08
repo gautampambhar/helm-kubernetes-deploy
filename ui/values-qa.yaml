@@ -1,0 +1,24 @@
+app:
+  replicas: 2
+  env: qa
+  container:
+    image: 300974211/frontend
+  computerc:
+    limits:
+      memory: 500Mi
+      cpu: 1
+    requests:
+      memory: 500Mi
+      cpu: 1
+
+hpa: # is not required for dev env
+  enabled: false
+
+config:
+  name: config.yaml
+  data: 
+    timeout: 5s
+    logfile: /app/var/log.txt
+    database:
+      ip: 120.220.230.20
+      name: ui-qa
